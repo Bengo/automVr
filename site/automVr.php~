@@ -1,0 +1,42 @@
+ <?php
+header('Content-Type: text/xml; charset=UTF-8');
+
+
+function baisser($val)
+{
+   return $val;
+} 
+
+function pause($val)
+{
+   return $val;
+}
+
+function lever($val)
+{
+   return $val;
+}
+
+
+if($_GET['zone']!='')
+{
+   $value = @call_user_func($_GET['action'], $_GET['zone']); 
+
+   echo "<response><value>".$value."</value></response>"; 
+
+}
+else
+{
+   echo "<response>
+
+            <error>".utf8_encode("Requête Invalide")."</error>
+
+            <action>".$_GET['action']."</action>
+
+            <zone>".$_GET['zone']."</zone>
+
+         </response>";
+
+}
+
+?>
