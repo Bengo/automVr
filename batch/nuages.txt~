@@ -20,10 +20,3 @@ Si des cumulonimbus ou cumulus bourgeonnants sont présents, CB ou TCU sont ajou
 Si le ciel est obscurci par les précipitations ou le brouillard, VV (Vertical Visibility) est utilisé suivi de la visibilité mesurée en pied (ou /// en cas d'impossibilité de la mesurer). Une visibilité verticale est aussi considérée comme un plafond.
 
 Si la station est automatique et aucune présence de nuages n'a pu être détectée, NCD (No Clouds Detected) est utilisé
-
-
-LFRB 211030Z 24016KT 9999 FEW023CB SCT030 09/03 Q1010 TEMPO SHRA
---> 1.37
-
-
-

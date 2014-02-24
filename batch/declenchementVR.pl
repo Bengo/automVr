@@ -2,91 +2,134 @@
 use strict;
 use warnings;
 use Config::IniFiles;
-use Time::Local;
+use DateTime;
+use DateTime::Event::Sunrise;
 
+#on calcule l'heure de lever et de coucher du soleil
+my $dt = DateTime->now(time_zone=>'local');
+
+my $sunrise = DateTime::Event::Sunrise ->sunrise (
+                        longitude => '-4.632242',
+                        latitude =>  '48.426059',
+                   );
+                   
+my $sunset = DateTime::Event::Sunrise ->sunset (
+                        longitude => '-4.632242',
+                        latitude =>  '48.426059',
+                   );
+                   
+my $timeLeverJour = $sunrise->current($dt); 
+$timeLeverJour->set_second(0);                                
+my $timeCoucherJour = $sunset->current($dt);  
+$timeCoucherJour->set_second(0);
+  
 # on ouvre le fichier de configuration 
-my $cfg = Config::IniFiles->new( -file => "/home/bengo/Outils/automVr/config.ini");
-
+my $cfg = Config::IniFiles->new( -file => "../config.ini");
 my $modeFete = $cfg->val("ModeFete","modeFete");
-
 
 #monter auto
 my $zoneChambreRdcMonteeAuto = $cfg->val("ZonesMonteeAuto","zoneChambreRdc");
 my $zoneChambresEtageMonteeAuto = $cfg->val("ZonesMonteeAuto","zoneChambresEtage");
 my $zonePieceDeVieMonteeAuto = $cfg->val("ZonesMonteeAuto","zonePieceDeVie");
 
-#descente autoF
+#descente auto
 my $zoneChambreRdcDescenteAuto = $cfg->val("ZonesDescenteAuto","zoneChambreRdc");
 my $zoneChambresEtageDescenteAuto = $cfg->val("ZonesDescenteAuto","zoneChambresEtage");
 my $zonePieceDeVieDescenteAuto = $cfg->val("ZonesDescenteAuto","zonePieceDeVie");
 
+#configuration des pins du port GPIO
 my @zoneChambreRdcPins = split(/,/, $cfg->val("ZonesPins","zoneChambreRdc"));
 my @zoneChambresEtagePins = split(/,/, $cfg->val("ZonesPins","zoneChambresEtage"));
 my @zonePieceDeViePins = split(/,/, $cfg->val("ZonesPins","zonePieceDeVie"));
 
-
-# heure de lever/coucher du jour
-my @leverJour = split(/:/, $cfg->val("Ephemeride","leverSoleil"));
-my @coucherJour = split(/:/, $cfg->val("Ephemeride","coucherSoleil"));
-
-my (undef, $min, $heure, $jour, $mois, $annee, undef, undef, undef) = localtime(time); 
-my $timeActuel = timelocal("0", $min, $heure, $jour, $mois, $annee);
-
-my $timeLeverJour = timelocal("0", $leverJour[1], $leverJour[0]+1, $jour, $mois, $annee);
-
-my $timeCoucherJour = timelocal("0", $coucherJour[1], $coucherJour[0]-1, $jour, $mois, $annee);
-
 # test si on doit lever les volets
 my @borneInfLever = split(/:/, $cfg->val("Scenario","borneInfLever"));
-my $timeInflever = timelocal("0", $borneInfLever[1], $borneInfLever[0], $jour, $mois, $annee);
+my $timeInflever = DateTime->new(	
+								year	=>$dt->year(),
+								month	=>$dt->month(),
+								day 	=>$dt->day(),
+								hour	=>$borneInfLever[0],
+								minute	=>$borneInfLever[1]
+								);
+
 
 my @borneSupLever = split(/:/, $cfg->val("Scenario","borneSupLever"));
-my $timeSuplever = timelocal("0", $borneSupLever[1], $borneSupLever[0], $jour, $mois, $annee);
+my $timeSuplever = DateTime->new(	
+								year	=>$dt->year(),
+								month	=>$dt->month(),
+								day 	=>$dt->day(),
+								hour	=>$borneSupLever[0],
+								minute	=>$borneSupLever[1]
+								);
 
+my $timeActuel = DateTime->new(
+								year	=>$dt->year(),
+								month	=>$dt->month(),
+								day 	=>$dt->day(),
+								hour	=>$dt->hour(),
+								minute	=>$dt->minute(),
+								);
 
 # si le lever de soleil a lieu avant l'intervalle
 if($timeLeverJour<$timeInflever) {
 	if($timeActuel == $timeInflever) {
+		print "Montee Auto : borne inferieure \n";
 		monteeAutoVolets();	
 	}
 # si le lever de soleil a lieu dans l'intervalle
 } elsif($timeLeverJour>=$timeInflever && $timeLeverJour<=$timeSuplever){
 	if($timeActuel == $timeLeverJour) {
+		print "Montee Auto : heure soleil \n";
 		monteeAutoVolets();	
 	}
 #le lever de soleil a lieu apres l'intervalle
 } else {
 	if($timeActuel == $timeSuplever) {
+	print "Montee Auto : borne superieure \n";
 		monteeAutoVolets();	
 	}	
 }
 
 # test si on doit baisser les volets
 my @borneInfCoucher = split(/:/, $cfg->val("Scenario","borneInfCoucher"));
-my $timeInfCoucher = timelocal("0", $borneInfCoucher[1], $borneInfCoucher[0], $jour, $mois, $annee);
+my $timeInfCoucher = DateTime->new(	
+								year	=>$dt->year(),
+								month	=>$dt->month(),
+								day 	=>$dt->day(),
+								hour	=>$borneInfCoucher[0],
+								minute	=>$borneInfCoucher[1]
+								);
 
 my @borneSupCoucher = split(/:/, $cfg->val("Scenario","borneSupCoucher"));
-my $timeSupCoucher = timelocal("0", $borneSupCoucher[1], $borneSupCoucher[0], $jour, $mois, $annee);
+my $timeSupCoucher = DateTime->new(	
+								year	=>$dt->year(),
+								month	=>$dt->month(),
+								day 	=>$dt->day(),
+								hour	=>$borneSupCoucher[0],
+								minute	=>$borneSupCoucher[1]
+								);
 
 # si le coucher de soleil a lieu avant l'intervalle
 if($timeCoucherJour<$timeInfCoucher) {
 	if($timeActuel == $timeInfCoucher) {
+		print "Descente Auto : borne inferieure \n";
 		descenteAutoVolets();	
 	}
 # si le coucher de soleil a lieu dans l'intervalle
 } elsif($timeCoucherJour>=$timeInfCoucher && $timeCoucherJour<=$timeSupCoucher){
 	if($timeActuel == $timeCoucherJour) {
+		print "Descente Auto : heure soleil \n";
 		descenteAutoVolets();
 	}
 #le coucher de soleil a lieu apres l'intervalle
 } else {
 	if($timeActuel == $timeSupCoucher) {
+		print "Descente Auto : borne superieure \n";
 		descenteAutoVolets();	
 	}	
 }
 
 sub monteeAutoVolets {
-	print("Montee Auto");
 	#si le mode fete n'est pas actif
 	if($modeFete eq "off") {
 		#on recupere les zones actives	
