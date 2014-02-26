@@ -20,11 +20,11 @@ my $sunset = DateTime::Event::Sunrise ->sunset (
                    
 my $timeLeverJour = $sunrise->current($dt); 
 $timeLeverJour->set_second(0);                                
-my $timeCoucherJour = $sunset->current($dt);  
+my $timeCoucherJour = $sunset->next($dt);  
 $timeCoucherJour->set_second(0);
   
 # on ouvre le fichier de configuration 
-my $cfg = Config::IniFiles->new( -file => "../config.ini");
+my $cfg = Config::IniFiles->new( -file => "/home/bengo/Outils/automVr/config.ini");
 my $modeFete = $cfg->val("ModeFete","modeFete");
 
 #monter auto
