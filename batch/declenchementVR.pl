@@ -8,19 +8,16 @@ use DateTime::Event::Sunrise;
 #on calcule l'heure de lever et de coucher du soleil
 my $dt = DateTime->now(time_zone=>'local');
 
-my $sunrise = DateTime::Event::Sunrise ->sunrise (
+my $sunrise = DateTime::Event::Sunrise ->new (
                         longitude => '-4.632242',
                         latitude =>  '48.426059',
                    );
                    
-my $sunset = DateTime::Event::Sunrise ->sunset (
-                        longitude => '-4.632242',
-                        latitude =>  '48.426059',
-                   );
+my $both_times = $sunrise->sunrise_sunset_span( $dt );
                    
-my $timeLeverJour = $sunrise->current($dt); 
+my $timeLeverJour = $both_times->start->datetime;; 
 $timeLeverJour->set_second(0);                                
-my $timeCoucherJour = $sunset->next($dt);  
+my $timeCoucherJour = $both_times->end->datetime;  
 $timeCoucherJour->set_second(0);
   
 # on ouvre le fichier de configuration 
@@ -71,24 +68,30 @@ my $timeActuel = DateTime->new(
 								);
 
 # si le lever de soleil a lieu avant l'intervalle
+
 if($timeLeverJour<$timeInflever) {
+	print $timeLeverJour;
+	print "\n";
+	print $timeInflever;
+	print "\n";
 	if($timeActuel == $timeInflever) {
 		print "Montee Auto : borne inferieure \n";
 		monteeAutoVolets();	
 	}
-# si le lever de soleil a lieu dans l'intervalle
+# si le lever de soleil a lieu dans l'intervalle 
 } elsif($timeLeverJour>=$timeInflever && $timeLeverJour<=$timeSuplever){
 	if($timeActuel == $timeLeverJour) {
 		print "Montee Auto : heure soleil \n";
 		monteeAutoVolets();	
 	}
-#le lever de soleil a lieu apres l'intervalle
+#sinon le lever de soleil a lieu apres l'intervalle
 } else {
 	if($timeActuel == $timeSuplever) {
-	print "Montee Auto : borne superieure \n";
+		print "Montee Auto : borne superieure \n";
 		monteeAutoVolets();	
 	}	
 }
+	
 
 # test si on doit baisser les volets
 my @borneInfCoucher = split(/:/, $cfg->val("Scenario","borneInfCoucher"));
@@ -120,13 +123,13 @@ if($timeCoucherJour<$timeInfCoucher) {
 	if($timeActuel == $timeCoucherJour) {
 		print "Descente Auto : heure soleil \n";
 		descenteAutoVolets();
-	}
-#le coucher de soleil a lieu apres l'intervalle
+	} 
+# sinon le coucher de soleil a lieu apres l'intervalle
 } else {
 	if($timeActuel == $timeSupCoucher) {
 		print "Descente Auto : borne superieure \n";
 		descenteAutoVolets();	
-	}	
+	}
 }
 
 sub monteeAutoVolets {
@@ -213,5 +216,3 @@ sub descenteAutoVolets {
 		system("sleep 0.1");
 	}		
 }
-
-
