@@ -15,9 +15,9 @@ my $sunrise = DateTime::Event::Sunrise ->new (
                    
 my $both_times = $sunrise->sunrise_sunset_span( $dt );
                    
-my $timeLeverJour = $both_times->start->datetime;; 
+my $timeLeverJour = $both_times->start;
 $timeLeverJour->set_second(0);                                
-my $timeCoucherJour = $both_times->end->datetime;  
+my $timeCoucherJour = $both_times->end;  
 $timeCoucherJour->set_second(0);
   
 # on ouvre le fichier de configuration 
@@ -70,10 +70,6 @@ my $timeActuel = DateTime->new(
 # si le lever de soleil a lieu avant l'intervalle
 
 if($timeLeverJour<$timeInflever) {
-	print $timeLeverJour;
-	print "\n";
-	print $timeInflever;
-	print "\n";
 	if($timeActuel == $timeInflever) {
 		print "Montee Auto : borne inferieure \n";
 		monteeAutoVolets();	
