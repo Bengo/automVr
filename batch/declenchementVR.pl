@@ -122,6 +122,9 @@ my $timeActuel = DateTime->new(
 								minute	=>$dt->minute(),
 								);
 
+
+my @pinsAuto = ();
+
 # test si on doit lever les volets
 	# si le lever de soleil a lieu avant l'intervalle
 	if($timeLeverJour<$timeInflever) {
@@ -169,7 +172,7 @@ my $timeActuel = DateTime->new(
 
 # test si on doit mettre les volets en position intermediaire
 	#si on est dans l'intervalle
-	if($timeActuel>$timeInfIntermediaire && $timeActuel<timeInfIntermediaire){
+	if($timeActuel>$timeInfIntermediaire && $timeActuel<$timeInfIntermediaire){
 		#si on n'est pas deja dans la position intermediaire
 		if($positionIntermediaireAtteinte eq "false"){
 			#si le releve meteo date de moins de 30 minutes
@@ -187,8 +190,7 @@ my $timeActuel = DateTime->new(
 sub monteeAutoVolets {
 	#si le mode fete n'est pas actif
 	if($modeFete eq "off") {
-		#on recupere les zones actives	
-		my @pinsAuto = ();
+		#on recupere les zones actives		
 		if($zoneChambreRdcMonteeAuto eq "on") {
 			push(@pinsAuto, @zoneChambreRdcPins);		
 		}
@@ -220,7 +222,6 @@ sub monteeAutoVolets {
 
 sub descenteAutoVolets {
 	#on recupere les zones actives
-	my @pinsAuto = ();
 	if($zoneChambreRdcDescenteAuto eq "on") {
 		push(@pinsAuto, @zoneChambreRdcPins);		
 	}
@@ -247,7 +248,6 @@ sub descenteAutoVolets {
 
 sub positionIntermediaire {
 	#on recupere les zones actives
-	my @pinsAuto = ();
 	if($zoneChambreRdcIntermediaireAuto eq "on") {
 		push(@pinsAuto, @zoneChambreRdcPins);		
 	}
@@ -287,13 +287,13 @@ sub agirVolet {
 	my $i=0;
 	for($i=0 ; $i<$nbimpulsions ; $i++){		
 		#on met a 1 les pins
-		foreach my $pin (@pins){
+		foreach my $pin (@pinsAuto){
 			system("/usr/local/bin/gpio write $pin 1;");
 		}
 		#on attend
 		system("sleep 0.1");
 		#on met a 0 les pins
-		foreach my $pin (@pins){
+		foreach my $pin (@pinsAuto){
 			system("/usr/local/bin/gpio write $pin 0;");
 		}
 		#on attend
