@@ -248,15 +248,15 @@ sub descenteAutoVolets {
 sub positionIntermediaire {
 	#on recupere les zones actives
 	my @pinsAuto = ();
-	if($zoneChambreRdcDescenteAuto eq "on") {
+	if($zoneChambreRdcIntermediaireAuto eq "on") {
 		push(@pinsAuto, @zoneChambreRdcPins);		
 	}
-	if($zoneChambresEtageDescenteAuto eq "on") {
+	if($zoneChambresEtageIntermediaireAuto eq "on") {
 		push(@pinsAuto, @zoneChambresEtagePins);		
 	}
 	#si le mode fete n'est pas actif	
 	if($modeFete eq "off") {
-		if($zonePieceDeVieDescenteAuto eq "on") {
+		if($zonePieceDeVieIntermediaireAuto eq "on") {
 			push(@pinsAuto, @zonePieceDeViePins);
 		}
 	}
