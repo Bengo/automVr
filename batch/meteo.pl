@@ -5,6 +5,7 @@ use Config::IniFiles;
 use LWP::Simple;
 use XML::Simple;
 use DateTime;
+use Encode;
 
 # récupere la meteo grace a un appel a Weather Underground et enregistre les informations dans le fichier de config
 
@@ -32,10 +33,15 @@ else {
 	$cfg->setval("Meteo","dateMeteo",DateTime->from_epoch(time_zone=>'local',epoch=>$observation->{observation_epoch}));
 	$cfg->setval("Meteo","temperature",$observation->{temp_c});
 	$cfg->setval("Meteo","vent",$observation->{wind_kph});
-	$cfg->setval("Meteo","pluie",$observation->{precip_1hr_metric});
+	if ($observation->{precip_1hr_metric}+0 ne $observation->{precip_1hr_metric}){
+		$cfg->setval("Meteo","pluie",0);
+	} else {
+		$cfg->setval("Meteo","pluie",$observation->{precip_1hr_metric});
+	}
+	
 	$cfg->setval("Meteo","pression",$observation->{pressure_mb});
 	$cfg->setval("Meteo","visibilite",$observation->{visibility_km});
-	$cfg->setval("Meteo","ciel",$observation->{weather});
+	$cfg->setval("Meteo","ciel",encode("utf8", $observation->{weather}));
 	
 	$cfg->WriteConfig("/home/bengo/Outils/automVr/config.ini");
 }

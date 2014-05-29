@@ -26,11 +26,14 @@ $timeLeverJour->set_second(0);
 my $timeCoucherJour = $parser->parse_datetime($both_times->end);  
 $timeCoucherJour->set_second(0);
  
- 
- 
-
 # on ouvre le fichier de configuration 
 my $cfg = Config::IniFiles->new( -file => "/home/bengo/Outils/automVr/config.ini");
+
+$cfg->setval("Ephemeride","leverSoleil",$timeLeverJour->strftime('%H:%M:%S'));
+$cfg->setval("Ephemeride","coucherSoleil",$timeCoucherJour->strftime('%H:%M:%S'));
+$cfg->WriteConfig("/home/bengo/Outils/automVr/config.ini");
+
+
 my $modeFete = $cfg->val("ModeFete","modeFete");
 my $positionIntermediaireAtteinte = $cfg->val("Intermediaire","positionAtteinte");
 

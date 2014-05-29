@@ -136,7 +136,7 @@
 			$("[class*='actionvr']").click(function(){
 				$.get("automVr.php", { zone: $(this).data("zone"), action: $(this).data("action") } );
 			});
-/*
+
 			//on charge les options
 			$.getJSON("config.php",function(data) {
 				$("td#leverSoleil").text(data.Ephemeride.leverSoleil);
@@ -159,7 +159,6 @@
 					$.get("modeFete.php?modeFete=off");
 				}
 			});
-*/
 		});
 	</script>
    </body>
