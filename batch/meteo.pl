@@ -29,7 +29,7 @@ else {
 	# on ouvre le fichier de configuration 
 	my $cfg = Config::IniFiles->new( -file => "/home/bengo/Outils/automVr/config.ini");
 	
-	$cfg->setval("Meteo","dateMeteo",DateTime->from_epoch(epoch=>$observation->{observation_epoch}));
+	$cfg->setval("Meteo","dateMeteo",DateTime->from_epoch(time_zone=>'local',epoch=>$observation->{observation_epoch}));
 	$cfg->setval("Meteo","temperature",$observation->{temp_c});
 	$cfg->setval("Meteo","vent",$observation->{wind_kph});
 	$cfg->setval("Meteo","pluie",$observation->{precip_1hr_metric});

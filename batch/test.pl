@@ -30,8 +30,10 @@ print "Sunrise is: " , $lever, "\n";
 print "Sunset is: " , $coucher, "\n";
 print "Duree du jour: ", $duration->delta_minutes, "\n";
 
-
+print DateTime->from_epoch(time_zone=>'local',epoch=>1401377413), "\n";
 if($duration->delta_minutes>943){
+
+
 
 print "test\n";
 }
