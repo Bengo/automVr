@@ -175,7 +175,7 @@ my @pinsAuto = ();
 
 # test si on doit mettre les volets en position intermediaire
 	#si on est dans l'intervalle
-	if($timeActuel>$timeInfIntermediaire && $timeActuel<$timeInfIntermediaire){
+	if($timeActuel>$timeInfIntermediaire && $timeActuel<$timeSupIntermediaire){
 		#si on n'est pas deja dans la position intermediaire
 		if($positionIntermediaireAtteinte eq "false"){
 			#si le releve meteo date de moins de 30 minutes
