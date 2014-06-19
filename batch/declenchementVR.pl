@@ -53,7 +53,8 @@ my $zoneChambresEtageIntermediaireAuto = $cfg->val("ZonesPositionIntermediaireAu
 my $zonePieceDeVieIntermediaireAuto = $cfg->val("ZonesPositionIntermediaireAuto","zonePieceDeVie");
 
 #date releve meteo
-my $dateMeteo = $cfg->val("Meteo","dateMeteo");
+my $dateMeteoString = $cfg->val("Meteo","dateMeteo");
+my $dateMeteo =$parser->parse_datetime($dateMeteoString);
 my $temperature = $cfg->val("Meteo","temperature");
 my $vent = $cfg->val("Meteo","vent");
 
@@ -180,7 +181,7 @@ my @pinsAuto = ();
 		if($positionIntermediaireAtteinte eq "false"){
 			#si le releve meteo date de moins de 30 minutes
 			my $diff = $dt->delta_ms($dateMeteo);
-			if($diff->delta_minutes < 30 ){
+			if($diff->minutes < 30 ){
 				#si il fait plus de 19 deg et qu'il y a moins de 25 km/h de vent 
 				if($temperature>=19 && $vent <= 25 ){
 					positionIntermediaire();
