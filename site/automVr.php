@@ -4,7 +4,7 @@ header('Content-Type: text/xml; charset=UTF-8');
 
 function baisser($val)
 {
-   exec("/home/bengo/Outils/automVr/batch/baisser.pl $val");
+   exec("../batch/baisser.pl $val");
 } 
 
 function pause($val)
@@ -14,7 +14,7 @@ function pause($val)
 
 function lever($val)
 {
-   exec("/home/bengo/Outils/automVr/batch/lever.pl $val");
+   exec("../batch/lever.pl $val");
 }
 
 
