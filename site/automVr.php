@@ -4,17 +4,17 @@ header('Content-Type: text/xml; charset=UTF-8');
 
 function baisser($val)
 {
-   exec("/home/bengo/Outils/automVr/batch/baisser.pl $val");
+   exec("../batch/baisser.pl $val");
 } 
 
 function pause($val)
 {
-   exec("/home/bengo/Outils/automVr/batch/pause.pl $val");
+   exec("../batch/pause.pl $val");
 }
 
 function lever($val)
 {
-   exec("/home/bengo/Outils/automVr/batch/lever.pl $val");
+   exec("../batch/lever.pl $val");
 }
 
 
