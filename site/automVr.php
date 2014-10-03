@@ -9,7 +9,7 @@ function baisser($val)
 
 function pause($val)
 {
-   exec("/home/bengo/Outils/automVr/batch/pause.pl $val");
+   exec("../batch/pause.pl $val");
 }
 
 function lever($val)
