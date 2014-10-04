@@ -1,26 +1,24 @@
  <?php
 header('Content-Type: text/xml; charset=UTF-8');
 
-
-function baisser($val)
+if(isset($_GET['zone']) AND isset($_GET['action'])){
 {
-   exec("../batch/baisser.pl $val");
-} 
+	$action = escapeshellarg($_GET['action']);
+	$zone = escapeshellarg($_GET['zone']);
+	exec('../scripts/volets.pl '.$action.' '.$zone);
 
-function pause($val)
-{
-   exec("../batch/pause.pl $val");
-}
-
-function lever($val)
-{
-   exec("../batch/lever.pl $val");
-}
-
-
-if($_GET['zone']!='')
-{
-   @call_user_func($_GET['action'], $_GET['zone']); 
+} else if(isset($_GET['option']) AND isset($_GET['value'])){
+	$option = escapeshellarg($_GET['option']);
+	$value = escapeshellarg($_GET['value']);
+	if(strcmp($option, "modeFete")){
+		if(strcmp($value, "on")){
+			exec('../scripts/volets.pl option modeFeteOn');
+		}
+		if(strcmp($value, "off")){
+			exec('../scripts/volets.pl option modeFeteOff');
+		}
+		
+	}
 }
 else
 {
