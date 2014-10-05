@@ -25,13 +25,13 @@
                    <div class="row-fluid">
                        <div class="span11 offset1">
                            <div class="span2">
-                               <button data-zone="generale" data-action="lever" class="btn btn-inverse btn-large btn-block actionvr"><i class="icon-white icon-arrow-up"></i> Lever</button>
+                               <button data-zone="generale" data-position="haut" class="btn btn-inverse btn-large btn-block actionvr"><i class="icon-white icon-arrow-up"></i> Lever</button>
                            </div>
                            <div class="span2">
-                               <button data-zone="generale" data-action="pause" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-pause"></i> Pause</button>
+                               <button data-zone="generale" data-position="pause" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-pause"></i> Pause</button>
                            </div>
                            <div class="span2">
-                               <button data-zone="generale" data-action="baisser" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-arrow-down"></i> Baisser</button>
+                               <button data-zone="generale" data-position="bas" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-arrow-down"></i> Baisser</button>
                            </div>
                        </div>
 
@@ -41,13 +41,13 @@
                    <div class="row-fluid">
                        <div class="span11 offset1">
                            <div class="span2">
-                               <button data-zone="pdv" data-action="lever" class="btn btn-inverse btn-large btn-block actionvr"><i class="icon-white icon-arrow-up"></i> Lever</button>
+                               <button data-zone="pdv" data-position="haut" class="btn btn-inverse btn-large btn-block actionvr"><i class="icon-white icon-arrow-up"></i> Lever</button>
                            </div>
                            <div class="span2">
-                               <button data-zone="pdv" data-action="pause" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-pause"></i> Pause</button>
+                               <button data-zone="pdv" data-position="pause" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-pause"></i> Pause</button>
                            </div>
                            <div class="span2">
-                               <button data-zone="pdv" data-action="baisser" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-arrow-down"></i> Baisser</button>
+                               <button data-zone="pdv" data-position="bas" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-arrow-down"></i> Baisser</button>
                            </div>
                        </div>
                    </div>                    
@@ -56,13 +56,13 @@
                    <div class="row-fluid">
                        <div class="span11 offset1">
                            <div class="span2">
-                               <button data-zone="chrdc" data-action="lever" class="btn btn-inverse btn-large btn-block actionvr"><i class="icon-white icon-arrow-up"></i> Lever</button>
+                               <button data-zone="chrdc" data-position="haut" class="btn btn-inverse btn-large btn-block actionvr"><i class="icon-white icon-arrow-up"></i> Lever</button>
                            </div>
                            <div class="span2">
-                               <button data-zone="chrdc" data-action="pause" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-pause"></i> Pause</button>
+                               <button data-zone="chrdc" data-position="pause" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-pause"></i> Pause</button>
                            </div>
                            <div class="span2">
-                               <button data-zone="chrdc" data-action="baisser" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-arrow-down"></i> Baisser</button>
+                               <button data-zone="chrdc" data-position="bas" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-arrow-down"></i> Baisser</button>
                            </div>
                        </div>
                    </div>                    
@@ -71,13 +71,13 @@
                    <div class="row-fluid">
                        <div class="span11 offset1">
                            <div class="span2">
-                               <button data-zone="etage" data-action="lever" class="btn btn-inverse btn-large btn-block actionvr"><i class="icon-white icon-arrow-up"></i> Lever</button>
+                               <button data-zone="etage" data-position="haut" class="btn btn-inverse btn-large btn-block actionvr"><i class="icon-white icon-arrow-up"></i> Lever</button>
                            </div>
                            <div class="span2">
-                               <button data-zone="etage" data-action="pause" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-pause"></i> Pause</button>
+                               <button data-zone="etage" data-position="pause" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-pause"></i> Pause</button>
                            </div>
                            <div class="span2">
-                               <button data-zone="etage" data-action="baisser" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-arrow-down"></i> Baisser</button>
+                               <button data-zone="etage" data-position="bas" class="btn btn-inverse btn-large  btn-block actionvr"><i class="icon-white icon-arrow-down"></i> Baisser</button>
                            </div>
                        </div>
                    </div>                    
@@ -134,7 +134,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("[class*='actionvr']").click(function(){
-				$.get("automVr.php", { zone: $(this).data("zone"), action: $(this).data("action") } );
+				$.get("automVr.php", { zone: $(this).data("zone"), position: $(this).data("position") } );
 			});
 
 			//on charge les options
