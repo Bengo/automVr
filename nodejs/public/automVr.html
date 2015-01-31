@@ -154,9 +154,9 @@
 			$('#switchModeFete').on('switch-change', function (e, data) {
 			    var value = data.value;
 				if(value){
-					$.get("automVr.php", { option: "modeFete", value: "on" } );
+					$.get("/api/options/modefe/true");
 				} else {
-					$.get("automVr.php", { option: "modeFete", value: "off" } );
+					$.get("/api/options/modefe/false");
 				}
 			});
 		});
