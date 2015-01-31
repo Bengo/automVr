@@ -14,13 +14,7 @@ var config = ini.parse(fs.readFileSync('../config.ini', 'utf-8'))
 
 function agir_volets(zone,position){
 	var exec_volets = exec('../scripts/volets.pl '+zone+' '+position,
-	  function (error, stdout, stderr) {
-		console.log('stdout: ' + stdout);
-		console.log('stderr: ' + stderr);
-		if (error !== null) {
-		  console.log('exec error: ' + error);
-		}
-	});
+							function (error, stdout, stderr) {});
 }
 
 api.get('/options', function(req, res) {
@@ -30,6 +24,8 @@ api.get('/options', function(req, res) {
 
 api.get('/volets/:zone/:position', function(req, res) {
 	agir_volets(req.params.zone,req.params.position);
+	res.setHeader('Content-Type', 'text/plain');
+    res.end("En cours ...");
 });
 
 app.use('/api',api);
