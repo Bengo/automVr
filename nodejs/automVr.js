@@ -31,4 +31,4 @@ api.get('/volets/:zone/:position', function(req, res) {
 app.use('/api',api);
 app.use('/',static);
 
-app.listen(8080);
+app.listen(80);
