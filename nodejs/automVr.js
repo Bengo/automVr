@@ -13,21 +13,21 @@ var api = express();
 
 
 function agir_volets(zone,position){
-	exec('../scripts/volets.pl '+zone+' '+position,	function (error, stdout, stderr) {});
+	exec('/home/bengo/Outils/automVr/scripts/volets.pl '+zone+' '+position,	function (error, stdout, stderr) {});
 }
 
 function mode_fete_actif(actif, mode_fete_result){
 	if(JSON.parse(actif)) {
-		exec('../scripts/volets.pl option modeFeteOn',	function (error, stdout, stderr) {});
+		exec('/home/bengo/Outils/automVr/scripts/volets.pl option modeFeteOn',	function (error, stdout, stderr) {});
 		return "actif";
 	} else {
-		exec('../scripts/volets.pl option modeFeteOff',	function (error, stdout, stderr) {});
+		exec('/home/bengo/Outils/automVr/scripts/volets.pl option modeFeteOff',	function (error, stdout, stderr) {});
 		return "inactif";
 	}
 }
 
 api.get('/options', function(req, res) {
-    var config = ini.parse(fs.readFileSync('../config.ini', 'utf-8'))
+    var config = ini.parse(fs.readFileSync('/home/bengo/Outils/automVr/config.ini', 'utf-8'))
     res.setHeader('Content-Type', 'text/plain');
     res.end(JSON.stringify(config));
 });
