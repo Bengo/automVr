@@ -10,7 +10,7 @@ var static = express();
 //tout le repertoire public est servi en static
 static.use(express.static(__dirname + '/public'));
 var api = express();
-var config = ini.parse(fs.readFileSync('../config.ini', 'utf-8'))
+
 
 function agir_volets(zone,position){
 	exec('../scripts/volets.pl '+zone+' '+position,	function (error, stdout, stderr) {});
@@ -27,6 +27,7 @@ function mode_fete_actif(actif, mode_fete_result){
 }
 
 api.get('/options', function(req, res) {
+    var config = ini.parse(fs.readFileSync('../config.ini', 'utf-8'))
     res.setHeader('Content-Type', 'text/plain');
     res.end(JSON.stringify(config));
 });
