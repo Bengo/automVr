@@ -85,22 +85,22 @@ switch($position) {
 sub agirVolet {
 	my $nbimpulsions = shift;
 	my $i=0;
-	for($i=0 ; $i<$nbimpulsions ; $i++){		
-		#on met a 1 les pins
-		foreach my $pin (@pins){
+		
+	#on met a 1 les pins
+	foreach my $pin (@pins){
+		for($i=0 ; $i<$nbimpulsions ; $i++){
 			system("gpio write $pin 1;");
-		}
-		#on attend
-		system("sleep 0.1");
-		#on met a 0 les pins
-		foreach my $pin (@pins){
+			#on attend
+			system("sleep 0.1");
+			#on met a 0 les pins
 			system("gpio write $pin 0;");
+			#on attend
+			system("sleep 0.1");
 		}
 		#on attend
 		system("sleep 0.1");
 	}
 	return;
-
 }
 
 
