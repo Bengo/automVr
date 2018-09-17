@@ -299,7 +299,7 @@ sub agirVolet {
 	my $i=0;
 		
 	#on met a 1 les pins
-	foreach my $pin (@pins){
+	foreach my $pin (@pinsAuto){
 		for($i=0 ; $i<$nbimpulsions ; $i++){
 			system("gpio write $pin 1;");
 			#on attend
