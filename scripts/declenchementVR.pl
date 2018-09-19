@@ -215,7 +215,7 @@ sub monteeAutoVolets {
 
 		#on met en mode out les pins
 		foreach my $pin (@pinsAuto){
-			system("/usr/local/bin/gpio mode $pin out;");
+			system("gpio mode $pin out;");
 		}
 		agirVolet(3);
 		system("sleep 1.5");
@@ -248,7 +248,7 @@ sub descenteAutoVolets {
 	}
 	#on met en mode out les pins
 	foreach my $pin (@pinsAuto){
-		system("/usr/local/bin/gpio mode $pin out;");
+		system("gpio mode $pin out;");
 	}
 	#on fait 4 impulsions sur les pins activees
 	agirVolet(4);
