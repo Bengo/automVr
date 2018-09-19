@@ -274,7 +274,7 @@ sub positionIntermediaire {
 	}
 	#on met en mode out les pins
 	foreach my $pin (@pinsAuto){
-		system("/usr/local/bin/gpio mode $pin out;");
+		system("gpio mode $pin out;");
 	}
 	#on leve les volets
 	agirVolet(3);
