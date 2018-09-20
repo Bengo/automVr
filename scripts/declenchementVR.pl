@@ -198,6 +198,8 @@ my @pinsAuto = ();
 		}	
 	}
 
+	print "Descente pour test\n";
+	descenteAutoVolets();
 
 sub monteeAutoVolets {
 	#si le mode fete n'est pas actif
@@ -235,6 +237,7 @@ sub monteeAutoVolets {
 sub descenteAutoVolets {
 	#on recupere les zones actives
 	if($zoneChambreRdcDescenteAuto eq "on") {
+		print "descente chambre rdc\n";
 		push(@pinsAuto, @zoneChambreRdcPins);		
 	}
 	if($zoneChambresEtageDescenteAuto eq "on") {
@@ -247,6 +250,7 @@ sub descenteAutoVolets {
 		}
 	}
 	#on met en mode out les pins
+	print "pins auto: @pinsAuto \n";
 	foreach my $pin (@pinsAuto){
 		system("gpio mode $pin out;");
 	}
