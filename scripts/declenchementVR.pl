@@ -140,19 +140,16 @@ my @pinsAuto = ();
 	# si le lever de soleil a lieu avant l'intervalle
 	if($timeLeverJour<$timeInflever) {
 		if($timeActuel == $timeInflever) {
-			print "Montee Auto : borne inferieure \n";
 			monteeAutoVolets();	
 		}
 	# si le lever de soleil a lieu dans l'intervalle 
 	} elsif($timeLeverJour>=$timeInflever && $timeLeverJour<=$timeSuplever){
 		if($timeActuel == $timeLeverJour) {
-			print "Montee Auto : heure soleil \n";
 			monteeAutoVolets();	
 		}
 	#sinon le lever de soleil a lieu apres l'intervalle
 	} else {
 		if($timeActuel == $timeSuplever) {
-			print "Montee Auto : borne superieure \n";
 			monteeAutoVolets();	
 		}	
 	}
@@ -162,19 +159,16 @@ my @pinsAuto = ();
 	# si le coucher de soleil a lieu avant l'intervalle
 	if($timeCoucherJour<$timeInfCoucher) {
 		if($timeActuel == $timeInfCoucher) {
-			print "Descente Auto : borne inferieure \n";
 			descenteAutoVolets();	
 		}
 	# si le coucher de soleil a lieu dans l'intervalle
 	} elsif($timeCoucherJour>=$timeInfCoucher && $timeCoucherJour<=$timeSupCoucher){
 		if($timeActuel == $timeCoucherJour) {
-			print "Descente Auto : heure soleil \n";
 			descenteAutoVolets();
 		} 
 	# sinon le coucher de soleil a lieu apres l'intervalle
 	} else {
 		if($timeActuel == $timeSupCoucher) {
-			print "Descente Auto : borne superieure \n";
 			descenteAutoVolets();	
 		}
 	}
@@ -198,10 +192,8 @@ my @pinsAuto = ();
 		}	
 	}
 
-	print "Descente pour test\n";
-	descenteAutoVolets();
-
 sub monteeAutoVolets {
+	print "montee auto volet a $timeActuel \n";
 	#si le mode fete n'est pas actif
 	if($modeFete eq "off") {
 		#on recupere les zones actives		
@@ -235,9 +227,10 @@ sub monteeAutoVolets {
 
 
 sub descenteAutoVolets {
+	print "descente auto volet a $timeActuel \n";
+
 	#on recupere les zones actives
 	if($zoneChambreRdcDescenteAuto eq "on") {
-		print "descente chambre rdc\n";
 		push(@pinsAuto, @zoneChambreRdcPins);		
 	}
 	if($zoneChambresEtageDescenteAuto eq "on") {
@@ -250,7 +243,6 @@ sub descenteAutoVolets {
 		}
 	}
 	#on met en mode out les pins
-	print "pins auto: @pinsAuto \n";
 	foreach my $pin (@pinsAuto){
 		system("gpio mode $pin out;");
 	}
@@ -263,6 +255,8 @@ sub descenteAutoVolets {
 
 
 sub positionIntermediaire {
+	print "position intermediaire auto volet a $timeActuel \n";
+
 	#on recupere les zones actives
 	if($zoneChambreRdcIntermediaireAuto eq "on") {
 		push(@pinsAuto, @zoneChambreRdcPins);		
