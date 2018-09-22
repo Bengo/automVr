@@ -5,8 +5,8 @@ use Config::IniFiles;
 use DateTime;
 use DateTime::Event::Sunrise;
 use DateTime::Format::Strptime;
-#FIXME
-my $fichierConf = "/home/bengo/Documents/Projet/automVr/config.ini";
+
+my $fichierConf = "/home/bengo/Outils/automVr/config.ini";
 
 # calcul l'heure de lever et de couche de soleil du jour
 my $dt = DateTime->now(time_zone=>'local');

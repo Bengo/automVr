@@ -7,7 +7,7 @@ use DateTime::Event::Sunrise;
 use DateTime::Format::Strptime;
 
 
-#Déclenchement automatique des volets en fonction des heures de lever/coucher su soleil
+#Declenchement automatique des volets en fonction des heures de lever/coucher su soleil
 my $fichierConf = "/home/bengo/Outils/automVr/config.ini";
 
  my $parser = DateTime::Format::Strptime->new(
