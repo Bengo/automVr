@@ -7,39 +7,16 @@ use DateTime::Event::Sunrise;
 use DateTime::Format::Strptime;
 
 
-
 #Déclenchement automatique des volets en fonction des heures de lever/coucher su soleil
-
 my $fichierConf = "/home/bengo/Outils/automVr/config.ini";
 
-
-#on calcule l'heure de lever et de coucher du soleil
-my $dt = DateTime->now(time_zone=>'local');
-
-my $sunrise = DateTime::Event::Sunrise ->new (
-                        longitude => '-4.632242',
-                        latitude =>  '48.426059',
-                   );
-                   
-my $both_times = $sunrise->sunrise_sunset_span( $dt );
-
-my $parser = DateTime::Format::Strptime->new(
+ my $parser = DateTime::Format::Strptime->new(
     pattern     => '%Y-%m-%dT%H:%M:%S',
     time_zone   => 'local',
 );
-                   
-my $timeLeverJour = $parser->parse_datetime($both_times->start);
-$timeLeverJour->set_second(0);                                
-my $timeCoucherJour = $parser->parse_datetime($both_times->end);  
-$timeCoucherJour->set_second(0);
- 
+
 # on ouvre le fichier de configuration 
 my $cfg = Config::IniFiles->new( -file => $fichierConf);
-
-$cfg->setval("Ephemeride","leverSoleil",$timeLeverJour->strftime('%H:%M:%S'));
-$cfg->setval("Ephemeride","coucherSoleil",$timeCoucherJour->strftime('%H:%M:%S'));
-$cfg->WriteConfig($fichierConf);
-
 
 my $modeFete = $cfg->val("ModeFete","modeFete");
 my $positionIntermediaireAtteinte = $cfg->val("Intermediaire","positionAtteinte");
@@ -58,6 +35,12 @@ my $zonePieceDeVieDescenteAuto = $cfg->val("ZonesDescenteAuto","zonePieceDeVie")
 my $zoneChambreRdcIntermediaireAuto = $cfg->val("ZonesPositionIntermediaireAuto","zoneChambreRdc");
 my $zoneChambresEtageIntermediaireAuto = $cfg->val("ZonesPositionIntermediaireAuto","zoneChambresEtage");
 my $zonePieceDeVieIntermediaireAuto = $cfg->val("ZonesPositionIntermediaireAuto","zonePieceDeVie");
+
+#date ephemeride
+my $timeLeverJourString = $cfg->val("Ephemeride","leverSoleil");
+my $timeLeverJour = $parser->parse_datetime($timeLeverJourString);
+my $timeCoucherJourString = $cfg->val("Ephemeride","coucherSoleil");
+my $timeCoucherJour = $parser->parse_datetime($timeCoucherJourString);
 
 #date releve meteo
 my $dateMeteoString = $cfg->val("Meteo","dateMeteo");
@@ -193,9 +176,9 @@ my @pinsAuto = ();
 	}
 
 sub monteeAutoVolets {
-	print "montee auto volet a $timeActuel \n";
 	#si le mode fete n'est pas actif
 	if($modeFete eq "off") {
+		print "montee auto volet a $timeActuel \n";
 		#on recupere les zones actives		
 		if($zoneChambreRdcMonteeAuto eq "on") {
 			push(@pinsAuto, @zoneChambreRdcPins);		
@@ -205,11 +188,6 @@ sub monteeAutoVolets {
 		}
 		if($zonePieceDeVieMonteeAuto eq "on") {
 			push(@pinsAuto, @zonePieceDeViePins);
-		}
-
-		#on met en mode out les pins
-		foreach my $pin (@pinsAuto){
-			system("gpio mode $pin out;");
 		}
 		agirVolet(3);
 		system("sleep 1.5");
@@ -242,10 +220,7 @@ sub descenteAutoVolets {
 			push(@pinsAuto, @zonePieceDeViePins);
 		}
 	}
-	#on met en mode out les pins
-	foreach my $pin (@pinsAuto){
-		system("gpio mode $pin out;");
-	}
+
 	#on fait 4 impulsions sur les pins activees
 	agirVolet(4);
 	system("sleep 1.5");
@@ -270,10 +245,7 @@ sub positionIntermediaire {
 			push(@pinsAuto, @zonePieceDeViePins);
 		}
 	}
-	#on met en mode out les pins
-	foreach my $pin (@pinsAuto){
-		system("gpio mode $pin out;");
-	}
+
 	#on leve les volets
 	agirVolet(3);
 	#on attend que les volets soient leves
@@ -293,9 +265,18 @@ sub positionIntermediaire {
 
 #fonction permettant d'envoyer les commandes aux volets
 sub agirVolet {
+
+	#on met en mode out a 0 les pins
+	foreach my $pin (@pinsAuto){
+		system("gpio mode $pin out;");
+		system("sleep 0.1");
+		system("gpio write $pin 0;");
+	}
+
 	my $nbimpulsions = shift;
 	my $i=0;
-		
+
+	system("sleep 0.1");
 	#on met a 1 les pins
 	foreach my $pin (@pinsAuto){
 		for($i=0 ; $i<$nbimpulsions ; $i++){
@@ -309,6 +290,13 @@ sub agirVolet {
 		}
 		#on attend
 		system("sleep 0.1");
+	}
+
+	#on reinit en mode in a 0 les pins
+	foreach my $pin (@pinsAuto){
+		system("gpio write $pin 0;");
+		system("sleep 0.1");
+		system("gpio mode $pin in;");
 	}
 	return;
 }

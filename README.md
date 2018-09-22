@@ -15,12 +15,14 @@ ____________
 install de perl
 
 pacman -Su perl
-cpan install  Config::IniFiles
+cpan install Config::IniFiles
 cpan install LWP::Simple
 cpan install XML::Simple
 cpan install DateTime
 cpan install Switch
 
+#Ephemeride
+0 2 * * * /home/bengo/Outils/automVr/scripts/ephemeride.pl
 
 #Meteo
 */30 * * * * /home/bengo/Outils/automVr/scripts/meteo.pl
