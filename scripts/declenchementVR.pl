@@ -3,7 +3,6 @@ use strict;
 use warnings;
 use Config::IniFiles;
 use DateTime;
-use DateTime::Event::Sunrise;
 use DateTime::Format::Strptime;
 
 
@@ -14,6 +13,8 @@ my $fichierConf = "/home/bengo/Outils/automVr/config.ini";
     pattern     => '%Y-%m-%dT%H:%M:%S',
     time_zone   => 'local',
 );
+
+my $dt = DateTime->now(time_zone=>'local');
 
 # on ouvre le fichier de configuration 
 my $cfg = Config::IniFiles->new( -file => $fichierConf);
